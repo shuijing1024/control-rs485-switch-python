@@ -161,24 +161,16 @@ jobs:
         with:
           path: ./artifacts
           merge-multiple: true
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Display structure of downloaded files
+        run: ls -R ./artifacts
+      - name: Create release and upload assets
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: 'Python开关控制器${{ github.ref_name }}'
-          body: |
-            'Release notes for ${{ github.ref_name }}'
+          body: 'Python开关控制器${{ github.ref_name }}'
           draft: true
           prerelease: false
-      - name: Upload Release Assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/* # 这里假设所有artifacts都下载到了artifacts文件夹中
-          asset_name: assets
-          asset_content_type: application/octet-stream
+          name: 'Python开关控制器${{ github.ref_name }}'
+          tag_name: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          make_latest: true
+          files: ./artifacts/*
