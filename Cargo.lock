@@ -131,7 +131,7 @@ dependencies = [
 
 [[package]]
 name = "control-rs485-switch-python"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "lib-switch-operate",
  "pyo3",
